@@ -10,13 +10,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import io.harambo.commands.JosCMD;
 import io.harambo.language.info.ScriptInformation;
 import io.harambo.language.info.ScriptInformationParser;
+import io.harambo.language.script.JScript;
 
-public class JScript extends JavaPlugin {
+public class JScriptCore extends JavaPlugin {
 	
-	private static JScript jScript;
-	private static ArrayList<ScriptInformation> info;
+	private static JScriptCore jScript;
+	private static ArrayList<JScript> scripts;
 	
 	@Override public void onEnable() {
 	
@@ -33,7 +35,7 @@ public class JScript extends JavaPlugin {
 		}
 		
 		jScript = this;
-		info = new ArrayList<>();
+		scripts = new ArrayList<>();
 	
 		
 		if(files.length > 0) {
@@ -43,7 +45,13 @@ public class JScript extends JavaPlugin {
 				if(!file.isDirectory()) {
 					if(file.getName().split(Pattern.quote("."))[1].equalsIgnoreCase("info")) {
 						ScriptInformation infdo = new ScriptInformation(new ScriptInformationParser(file));
-						if(infdo.getFileInfoParser().getState()) info.add(infdo);
+						if(infdo.getFileInfoParser().getState()) {
+							JScript script = new JScript(infdo);
+							
+							if(script.getState()) {
+								getScripts().add(script);
+							}
+						}
 					}
 				}
 			});
@@ -61,7 +69,7 @@ public class JScript extends JavaPlugin {
 	}
 	
 	private void registerCommands() {
-		
+		this.getServer().getPluginCommand("jos").setExecutor(new JosCMD());
 	}
 	
 	private void registerEvents(PluginManager pm) {
@@ -72,7 +80,7 @@ public class JScript extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage("§8| " + type.getColor() + "§l" + type.toString() + " §8=> §7" + msg);
 	};
 	
-	public static JScript getInstance() {
+	public static JScriptCore getInstance() {
 		return jScript;
 	}
 	
@@ -93,8 +101,8 @@ public class JScript extends JavaPlugin {
 		}
 	}
 	
-	public ArrayList<ScriptInformation> getInfoList() {
-		return info;
+	public static ArrayList<JScript> getScripts() {
+		return scripts;
 	}
 
 }

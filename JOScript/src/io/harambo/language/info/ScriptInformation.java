@@ -28,7 +28,7 @@ public class ScriptInformation {
 		Arrays.asList(DATA.values()).forEach(dataa -> {
 			parser.getResult().forEach(attr -> {
 				if(attr.startsWith(dataa.toString())) {
-					regis.put(dataa, attr.split(":")[1]);
+					regis.put(dataa, attr.split(":")[1].trim());
 				}
 			});
 		});
@@ -39,13 +39,14 @@ public class ScriptInformation {
 			Bukkit.getConsoleSender().sendMessage(" ");
 			Bukkit.getConsoleSender().sendMessage("§8§m=============================");
 			Bukkit.getConsoleSender().sendMessage(" ");
-			Bukkit.getConsoleSender().sendMessage("§7NAME §8=> §a" +regis.get(DATA.NAME));
-			Bukkit.getConsoleSender().sendMessage("§7AUTHOR §8=> §a" +regis.get(DATA.AUTHOR));
-			Bukkit.getConsoleSender().sendMessage("§7VERSION §8=> §a" +regis.get(DATA.VERSION));
-			Bukkit.getConsoleSender().sendMessage(" ");
+			//Bukkit.getConsoleSender().sendMessage("§7NAME §8=> §a" +regis.get(DATA.NAME));
+			//Bukkit.getConsoleSender().sendMessage("§7AUTHOR §8=> §a" +regis.get(DATA.AUTHOR));
+			//Bukkit.getConsoleSender().sendMessage("§7VERSION §8=> §a" +regis.get(DATA.VERSION));
+			//Bukkit.getConsoleSender().sendMessage(" ");
 			Bukkit.getConsoleSender().sendMessage("§7PATH: §8=> §b" + path);
 			Bukkit.getConsoleSender().sendMessage(" ");
 			Bukkit.getConsoleSender().sendMessage("§8§m=============================");
+			Bukkit.getConsoleSender().sendMessage(" ");
 		}
 	}
 	

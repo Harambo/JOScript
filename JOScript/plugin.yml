@@ -2,4 +2,7 @@ name: JOScript
 version: 1.0
 author: Harambo
 
-main: io.harambo.JScript
+main: io.harambo.JScriptCore
+
+commands:
+   jos:

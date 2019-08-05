@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Bukkit;
 
-import io.harambo.JScript;
-import io.harambo.JScript.ME;
+import io.harambo.JScriptCore;
+import io.harambo.JScriptCore.ME;
 
 public class ScriptInformationParser {
 	
@@ -60,11 +60,11 @@ public class ScriptInformationParser {
 						continue;
 					}
 					
-					JScript.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - Could not read path => LINE: §c" + line);
+					JScriptCore.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - Could not read path => LINE: §c" + line);
 					return this;
 				}
 				
-				JScript.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - Unnecessary code => LINE: §c" + line);
+				JScriptCore.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - Unnecessary code => LINE: §c" + line);
 				return this;
 			}
 			
@@ -80,17 +80,17 @@ public class ScriptInformationParser {
 							continue;
 						}
 		
-						JScript.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - The " +
+						JScriptCore.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - The " +
 						m.split(":")[0].toUpperCase() + " size must be over 3 => LINE: §c" + line);
 						return this;
 					}
 					
-					JScript.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - " +
+					JScriptCore.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - " +
 							m.split(":")[0].toUpperCase() + " does not exist => LINE: §c" + line);
 					return this;
 				}
 				
-				JScript.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - Unnecessary code => LINE: §c" + line);
+				JScriptCore.sendConsoleMessage(ME.ERROR, "(§a" + file.getName() + "§7) - Unnecessary code => LINE: §c" + line);
 				return this;
 			}
 		}
@@ -102,7 +102,7 @@ public class ScriptInformationParser {
 			result.forEach(ff -> {
 				if(ff.startsWith("NAME")) {
 					Bukkit.getConsoleSender().sendMessage("  ");
-					JScript.sendConsoleMessage(ME.INFO, "The script §b" + ff.split(":")[1] + " §7 was successfully parsed!");
+					JScriptCore.sendConsoleMessage(ME.INFO, "The information file of §b" + ff.split(":")[1].trim() + "§7 was successfully parsed!");
 					state = true;
 				}
 			});
@@ -111,7 +111,7 @@ public class ScriptInformationParser {
 		
 		AtomicReference<String> msString = new AtomicReference<>( "(§a" + file.getName() + "§7) - Datas not found  => ");
 		names.forEach(c -> msString.set(msString + c + " "));
-		JScript.sendConsoleMessage(ME.ERROR, msString.get());
+		JScriptCore.sendConsoleMessage(ME.ERROR, msString.get());
 		return this;
 	}
 

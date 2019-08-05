@@ -1,12 +1,13 @@
 package io.harambo.language.script;
 
-import java.awt.Event;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import org.bukkit.Bukkit;
 
 import io.harambo.JScriptCore;
 import io.harambo.JScriptCore.ME;
@@ -15,6 +16,7 @@ import io.harambo.language.info.ScriptInformation.DATA;
 import io.harambo.language.script.files.BaseFile;
 import io.harambo.language.script.files.CommandFile;
 import io.harambo.language.script.files.EventFile;
+import io.harambo.language.script.files.VariableFile;
 
 public class JScript {
 	
@@ -41,14 +43,95 @@ public class JScript {
 		Arrays.asList(new File(information.getPath()).listFiles()).forEach(files -> {
 			if(!files.isDirectory()) {
 				if(files.getName().contains(".jsc")) {
-					this.regis.get(TYPE.COMMAND).add(new CommandFile(this, files));
-					JScriptCore.sendConsoleMessage(ME.INFO, "The file §b" + files.getName() + "§7 was successfully parsed!");
+					CommandFile cmd = new CommandFile(this, files);
+					BufferedReader reader;
+					try {
+						reader = new BufferedReader(new FileReader(files));
+						
+						String m;
+						Integer line = 0;
+						
+						while((m = reader.readLine()) != null) {
+							line = line + 1;
+							
+							if(m.isEmpty()) {
+								continue;
+							}
+							
+							m = m.trim();
+							cmd.line2line(m, line);
+							
+						}
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					if(cmd.getState()) {
+						this.regis.get(TYPE.COMMAND).add(cmd);
+						JScriptCore.sendConsoleMessage(ME.INFO, "The file §b" + files.getName() + "§7 was successfully parsed!");
+					}
 				}else if(files.getName().contains(".jse")) {
-					this.regis.get(TYPE.EVENT).add(new EventFile(this, files));
-					JScriptCore.sendConsoleMessage(ME.INFO, "The file §b" + files.getName() + "§7 was successfully parsed!");
+					EventFile cmd = new EventFile(this, files);
+					BufferedReader reader;
+					try {
+						reader = new BufferedReader(new FileReader(files));
+						
+						String m;
+						Integer line = 0;
+						
+						while((m = reader.readLine()) != null) {
+							line = line + 1;
+							
+							if(m.isEmpty()) {
+								continue;
+							}
+							
+							m = m.trim();
+							cmd.line2line(m, line);
+							
+						}
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					if(cmd.getState()) {
+						this.regis.get(TYPE.EVENT).add(cmd);
+						JScriptCore.sendConsoleMessage(ME.INFO, "The file §b" + files.getName() + "§7 was successfully parsed!");
+					}
 				}else if(files.getName().contains(".jsv")) {
-					this.regis.get(TYPE.VAR).add(new EventFile(this, files));
-					JScriptCore.sendConsoleMessage(ME.INFO, "The file §b" + files.getName() + "§7 was successfully parsed!");
+					VariableFile cmd = new VariableFile(this, files);
+					BufferedReader reader;
+					try {
+						reader = new BufferedReader(new FileReader(files));
+						
+						String m;
+						Integer line = 0;
+						
+						while((m = reader.readLine()) != null) {
+							line = line + 1;
+							
+							if(m.isEmpty()) {
+								continue;
+							}
+							
+							m = m.trim();
+							cmd.line2line(m, line);
+							
+						}
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					if(cmd.getState()) {
+						this.regis.get(TYPE.VAR).add(cmd);
+						JScriptCore.sendConsoleMessage(ME.INFO, "The file §b" + files.getName() + "§7 was successfully parsed!");
+					}
 				}else {
 					JScriptCore.sendConsoleMessage(ME.ERROR, "(§a" + files.getName() + "§7) - Datas could not be registered. Wrong prefix?");
 				}

@@ -9,6 +9,11 @@ public class VariableFile extends BaseFile{
 	public VariableFile(JScript jScript, File f) {
 		super(jScript, f);
 	}
+
+	@Override
+	public void line2line(String line, Integer linenum) {
+		
+	}
 	
 	
 

@@ -9,6 +9,11 @@ public class EventFile extends BaseFile{
 	public EventFile(JScript jScript, File f) {
 		super(jScript, f);
 	}
+
+	@Override
+	public void line2line(String line, Integer linenum) {
+		
+	}
 	
 	
 
